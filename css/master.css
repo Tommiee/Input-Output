@@ -8,4 +8,5 @@ body{
 #canvas{
   background-color: lightgray;
   margin-left: 25%;
+  border: 2px black solid;
 }
