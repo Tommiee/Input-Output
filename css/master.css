@@ -1,0 +1,11 @@
+@import url('https://fonts.googleapis.com/css?family=PT+Sans:700|Press+Start+2P');
+
+body{
+  background-color: lightblue;
+  font-family: 'PT Sans', sans-serif;
+}
+
+#canvas{
+  background-color: lightgray;
+  margin-left: 25%;
+}
