@@ -1,3 +1,18 @@
+var neurosky = require('node-neurosky');
+
+var client = neurosky.createClient({
+  appName: 'My Great Application',
+	appKey: '1234567890abcdef...'
+})
+
+client.on('data',function(data){
+	console.log(data);
+});
+
+client.connect()
+
+
+/*
 const canvas = document.getElementById('canvas');
 const context = canvas .getContext('2d');
 
@@ -18,3 +33,4 @@ switch (input) {
     console.log("up pressed");
     break;
 }
+*/
