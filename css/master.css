@@ -3,10 +3,16 @@
 body{
   background-color: lightblue;
   font-family: 'PT Sans', sans-serif;
+  padding: 0;
+  margin: 0;
+}
+
+head{
+  padding: 0;
+  margin: 0;
 }
 
 #canvas{
-  background-color: lightgray;
-  margin-left: 25%;
-  border: 2px black solid;
+  background-color: #9F9FFF;
+  padding: 0;
 }
