@@ -3,19 +3,31 @@ const context = canvas.getContext("2d");
 let canvasW, canvasH;
 resize();
 
+var inputHandler = new InputHandler();
+
 var player = new GameObject(
   new Point(canvasW/2,canvasH/2,20,"lightgreen"),
   new Vector2(canvasW/2,canvasH/2),
-  new Vector2(1,4),
+  new Vector2(0,0),
   new Vector2(0,0)
 );
 
-var arena = {};
+var targetCircle = new Point(canvasW/2,canvasH/2,200,"green","",true,5);
+
+if(inputHandler.checkInput() == "space") {
+    console.log("space pressed");
+    player.vel.add(2,2);
+}
 
 function loop(){
   requestAnimationFrame(loop);
-  resize();
+  if(window.innerWidth != canvasW || window.innerHeight != canvasH){
+    resize();
+    targetCircle.x = canvasW/2;
+    targetCircle.y = canvasH/2;
+  }
   context.clearRect(0,0,canvasW,canvasH);
+  targetCircle.draw();
   player.draw();
   player.update();
 }

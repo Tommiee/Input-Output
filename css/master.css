@@ -12,6 +12,11 @@ head{
   margin: 0;
 }
 
+footer{
+  padding: 0;
+  margin: 0;
+}
+
 #canvas{
   background-color: #9F9FFF;
   padding: 0;
