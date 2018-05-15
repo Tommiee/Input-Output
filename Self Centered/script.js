@@ -1,36 +1,20 @@
 var neurosky = require('node-neurosky');
+var fs = require("fs");
+
 
 var client = neurosky.createClient({
-  appName: 'My Great Application',
+  appName: 'Neuro-Cade Server-side',
 	appKey: '1234567890abcdef...'
 })
 
 client.on('data',function(data){
-	console.log(data);
+  fs.writeFile("./data.json", data, (err) => {
+    if (err) {
+        console.error(err);
+        return;
+    };
+    console.log("Data written to file");
+  });
 });
 
 client.connect()
-
-
-/*
-const canvas = document.getElementById('canvas');
-const context = canvas .getContext('2d');
-
-let inputHandler = new InputHandler();
-
-let input = inputHandler.checkInput();
-switch (input) {
-  case "left":
-    console.log("left pressed");
-    break;
-  case "right":
-    console.log("right pressed");
-    break;
-  case "down":
-    console.log("down pressed");
-    break;
-  case "up":
-    console.log("up pressed");
-    break;
-}
-*/
