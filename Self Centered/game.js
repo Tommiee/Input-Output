@@ -4,6 +4,7 @@ let canvasW, canvasH;
 resize();
 
 //var inputHandler = new InputHandler();
+var withinArea;
 
 var player = new GameObject(
   new Point(0,0,20,"lightgreen"),
@@ -18,11 +19,13 @@ window.addEventListener('keydown',(e)=>{
   switch (e.keyCode) {
     case 32:
       //spacebar
-      if(player.point.distance(targetCircle) >= player.point.r){
+      if(!onInside(player,targetCircle)){
         player.vel.difVector(player.pos,new Vector2(targetCircle.x,targetCircle.y));
         player.vel.r = 1;
+        within = true;
       } else {
-        player.vel = new Vector2(0,0)
+        player.vel = new Vector2(0,0);
+        within
       }
     break;
   }
@@ -46,6 +49,12 @@ function resize(){
   canvas.height = window.innerHeight;
   canvasW = canvas.width;
   canvasH = canvas.height;
+}
+
+function onInside(itself,target){
+  if(itself.point.distance(target) <= itself.point.r+target.r){
+    return true;
+  }else return false;
 }
 
 loop();
