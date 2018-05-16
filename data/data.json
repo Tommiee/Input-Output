@@ -1,0 +1,17 @@
+{
+    "eSense": {
+        "attention": 84,
+        "meditation": 56
+    },
+    "eegPower": {
+        "delta": 16355,
+        "theta": 24891,
+        "lowAlpha": 605,
+        "highAlpha": 19757,
+        "lowBeta": 13047,
+        "highBeta": 21313,
+        "lowGamma": 12425,
+        "highGamma": 4891
+    },
+    "poorSignalLevel": 0
+}

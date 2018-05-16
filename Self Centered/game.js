@@ -15,21 +15,15 @@ var player = new GameObject(
 
 var targetCircle = new Point(canvasW/2,canvasH/2,100,"green","",true,5);
 
-window.addEventListener('keydown',(e)=>{
-  switch (e.keyCode) {
-    case 32:
-      //spacebar
-      if(!onInside(player,targetCircle)){
-        player.vel.difVector(player.pos,new Vector2(targetCircle.x,targetCircle.y));
-        player.vel.r = 1;
-        within = true;
-      } else {
-        player.vel = new Vector2(0,0);
-        within
-      }
-    break;
-  }
-});
+    //spacebar placeholder "meditation above threshold"
+    if(!onInside(player,targetCircle)){
+      player.vel.difVector(player.pos,new Vector2(targetCircle.x,targetCircle.y));
+      player.vel.r = 1;
+    } else {
+      //player.vel = new Vector2(0,0);
+    }
+    //placeholder "meditation below threshold"
+    player.vel.r = -1;
 
 function loop(){
   requestAnimationFrame(loop);

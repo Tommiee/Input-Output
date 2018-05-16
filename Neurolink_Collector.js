@@ -7,7 +7,7 @@ var client = neurosky.createClient({
 })
 
 client.on('data',function(data){
-  fs.writeFile("./data/data.json", data, (err) => {
+  fs.writeFile("./data/data.json", JSON.stringify(data, null, 4), (err) => {
     if (err) {
         console.error(err);
         return;
@@ -17,4 +17,4 @@ client.on('data',function(data){
   });
 });
 
-client.connect()
+client.connect();
