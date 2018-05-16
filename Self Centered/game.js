@@ -3,21 +3,30 @@ const context = canvas.getContext("2d");
 let canvasW, canvasH;
 resize();
 
-var inputHandler = new InputHandler();
+//var inputHandler = new InputHandler();
 
 var player = new GameObject(
-  new Point(canvasW/2,canvasH/2,20,"lightgreen"),
-  new Vector2(canvasW/2,canvasH/2),
-  new Vector2(0,0),
+  new Point(0,0,20,"lightgreen"),
+  new Vector2(100,100),
+  new Vector2(1,-3),
   new Vector2(0,0)
 );
 
-var targetCircle = new Point(canvasW/2,canvasH/2,200,"green","",true,5);
+var targetCircle = new Point(canvasW/2,canvasH/2,100,"green","",true,5);
 
-if(inputHandler.checkInput() == "space") {
-    console.log("space pressed");
-    player.vel.add(2,2);
-}
+window.addEventListener('keydown',(e)=>{
+  switch (e.keyCode) {
+    case 32:
+      //spacebar
+      if(player.point.distance(targetCircle) >= player.point.r){
+        player.vel.difVector(player.pos,new Vector2(targetCircle.x,targetCircle.y));
+        player.vel.r = 1;
+      } else {
+        player.vel = new Vector2(0,0)
+      }
+    break;
+  }
+});
 
 function loop(){
   requestAnimationFrame(loop);
@@ -27,8 +36,8 @@ function loop(){
     targetCircle.y = canvasH/2;
   }
   context.clearRect(0,0,canvasW,canvasH);
-  targetCircle.draw();
   player.draw();
+  targetCircle.draw();
   player.update();
 }
 
