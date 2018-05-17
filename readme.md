@@ -1,16 +1,16 @@
 # Speciale Input - Output
 Team #
-1. <Teamlid1>
-2. <Teamlid2>
-3. <Teamlid3>
+1. Noah de Bont.
+2. Daan Ruting.
+3. Tom Warmerdam.
 
 ## Ontwerp
-Beschrijf hier kort jullie project
+Een web-browser based, javascript powered arcade for the Neurosky MindWave.
 
 ## Portfolio
-Zet hier de links neer naar jullie documentatie.
+Documentatie links.
 
-* [Onderzoek]()
-* [Ontwerp]()
+* [Onderzoek]("Zie presentatie")
+* [Ontwerp]("Zie presentatie")
 * [Testrapportage]()
-* [Presentatie]()
+* [Presentatie](https://docs.google.com/presentation/d/1NVwYINl9EW2FILzj8P2wubCaKZaoM0UI78wqqmLHbFU/edit?usp=sharing "Go / No Go presentatie")
