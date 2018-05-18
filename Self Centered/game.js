@@ -1,12 +1,14 @@
 //TODO get DataReader.js to gather Meditation info
-//TODO
 
 const canvas = document.getElementById("canvas");
 const context = canvas.getContext("2d");
+
 let canvasW, canvasH;
 resize();
 
-//var inputHandler = new InputHandler();
+let targetVector = new Vector2(0,0);
+let rotator = new Vector2(0,0);
+
 var withinArea;
 
 var player = new GameObject(
@@ -16,7 +18,13 @@ var player = new GameObject(
   new Vector2(0,0)
 );
 
-var targetCircle = new Point(canvasW/2,canvasH/2,100,"green","",true,5);
+var targetCircle = new GameObject(
+  new Point(0,0,canvasH/6,"green","",true,5),
+  new Vector2(canvasW/2,canvasH/2),
+  new Vector2(0,0),
+  new Vector2(0,0)
+);
+
 /*
     //spacebar placeholder "meditation above threshold"
     if(!onInside(player,targetCircle)){
@@ -33,8 +41,8 @@ function loop(){
   requestAnimationFrame(loop);
   if(window.innerWidth != canvasW || window.innerHeight != canvasH){
     resize();
-    targetCircle.x = canvasW/2;
-    targetCircle.y = canvasH/2;
+    targetCircle.pos.dx = canvasW/2;
+    targetCircle.pos.dy = canvasH/2;
   }
 
   let jsonVals = getJson();
@@ -47,6 +55,7 @@ function loop(){
   player.draw();
   targetCircle.draw();
   player.update();
+  targetCircle.update();
 }
 
 function resize(){
@@ -57,25 +66,25 @@ function resize(){
 }
 
 function onInside(itself,target){
-  if(itself.point.distance(target) <= itself.point.r+target.r){
+  if(itself.point.distance(target) <= itself.point.r+target.point.r){
     return true;
   }else return false;
 }
 
 function rotateAround(self,target){
-  let targetVector = new Vector2(target.x-self.pos.dx,target.y-self.pos.dy);
-  let angularVector = new Vector2(0,0);
-  let movementVector = new Vector2(0,0);
+  let dAngle = 0.005;
+  let temp = new Vector2(0,0);
 
-  angularVector.dx = -targetVector.dy;
-  angularVector.dy = targetVector.dx;
-  angularVector.r = 1;
-  angularVector.r = self.vel.dot(targetVector);
+  targetVector.dx = target.pos.dx;
+  targetVector.dy = target.pos.dy;
 
-  self.vel.draw(context,self.pos.dx,self.pos.dy,50,"#FFF");
-  angularVector.draw(context,self.pos.dx,self.pos.dy,1,"#FFF");
-  targetVector.draw(context,self.pos.dx,self.pos.dy,50,"#FFF");
-  movementVector.draw(context,self.pos.dx,self.pos.dy,1,"#FFF");
-}0
+  temp.sumVector(targetVector,rotator);
+
+  rotator.angle += dAngle;
+  rotator.r = canvasH/4;
+
+  self.pos.dx = temp.dx;
+  self.pos.dy = temp.dy;
+}
 
 loop();
