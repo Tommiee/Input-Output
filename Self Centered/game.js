@@ -36,6 +36,12 @@ function loop(){
     targetCircle.x = canvasW/2;
     targetCircle.y = canvasH/2;
   }
+
+  let jsonVals = getJson();
+  if(jsonVals != null){
+    console.log(jsonVals.eSense.meditation);
+  }
+
   context.clearRect(0,0,canvasW,canvasH);
   rotateAround(player,targetCircle);
   player.draw();
@@ -57,9 +63,17 @@ function onInside(itself,target){
 }
 
 function rotateAround(self,target){
-  self.vel.difVector(self.pos,new Vector2(target.x,target.y));
-  self.vel.add(self.vel.difVector(self,new Vector2(target.x,-target.y)));
-  self.vel.r = 1;
+  let v = new Vector2(target.x-self.pos.dx,target.y-self.pos.dy);
+  let angular = new Vector2(0,0);
+
+  angular.dx = -self.vel.dy;
+  angular.dy = self.vel.dx;
+  angular.r = 1;
+  //angular.r = self.vel.dot(v);
+
+  v.draw(context,self.pos.dx,self.pos.dy,1,"#FFF");
+  self.vel.draw(context,self.pos.dx,self.pos.dy,50,"#FFF");
+  angular.draw(context,self.pos.dx,self.pos.dy,50,"#FFF");;
 }
 
 loop();
