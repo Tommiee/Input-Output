@@ -11,8 +11,8 @@ var withinArea;
 
 var player = new GameObject(
   new Point(0,0,20,"lightgreen"),
-  new Vector2(canvasW/2,canvasH/4),
-  new Vector2(5,0),
+  new Vector2(canvasW/4,canvasH/2),
+  new Vector2(0,0),
   new Vector2(0,0)
 );
 
@@ -39,7 +39,7 @@ function loop(){
 
   let jsonVals = getJson();
   if(jsonVals != null){
-    console.log(jsonVals.eSense.meditation);
+    //console.log(jsonVals.eSense.meditation);
   }
 
   context.clearRect(0,0,canvasW,canvasH);
@@ -63,17 +63,19 @@ function onInside(itself,target){
 }
 
 function rotateAround(self,target){
-  let v = new Vector2(target.x-self.pos.dx,target.y-self.pos.dy);
-  let angular = new Vector2(0,0);
+  let targetVector = new Vector2(target.x-self.pos.dx,target.y-self.pos.dy);
+  let angularVector = new Vector2(0,0);
+  let movementVector = new Vector2(0,0);
 
-  angular.dx = -self.vel.dy;
-  angular.dy = self.vel.dx;
-  angular.r = 1;
-  //angular.r = self.vel.dot(v);
+  angularVector.dx = -targetVector.dy;
+  angularVector.dy = targetVector.dx;
+  angularVector.r = 1;
+  angularVector.r = self.vel.dot(targetVector);
 
-  v.draw(context,self.pos.dx,self.pos.dy,1,"#FFF");
   self.vel.draw(context,self.pos.dx,self.pos.dy,50,"#FFF");
-  angular.draw(context,self.pos.dx,self.pos.dy,50,"#FFF");;
-}
+  angularVector.draw(context,self.pos.dx,self.pos.dy,1,"#FFF");
+  targetVector.draw(context,self.pos.dx,self.pos.dy,50,"#FFF");
+  movementVector.draw(context,self.pos.dx,self.pos.dy,1,"#FFF");
+}0
 
 loop();
