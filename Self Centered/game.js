@@ -6,6 +6,8 @@ const context = canvas.getContext("2d");
 let canvasW, canvasH;
 resize();
 
+let initJsonVal;
+
 let targetVector = new Vector2(0,0);
 let rotator = new Vector2(0,0);
 
@@ -19,7 +21,7 @@ var player = new GameObject(
 );
 
 var targetCircle = new GameObject(
-  new Point(0,0,canvasH/6,"green","",true,5),
+  new Point(-200,-200,canvasH/6,"green","",true,5,"white"),
   new Vector2(canvasW/2,canvasH/2),
   new Vector2(0,0),
   new Vector2(0,0)
@@ -37,25 +39,33 @@ var targetCircle = new GameObject(
     player.vel.r = -1;
 */
 
+
 function loop(){
   requestAnimationFrame(loop);
+
+  if(getJson() != null){
+    initJsonVal = getJson();
+    console.log(initJsonVal.eSense.meditation)
+  }
+
+  context.clearRect(player.point.x,player.point.y,(player.point.r*2)/0.5,(player.point.r*2)/0.5);
+  context.fillStyle = "rgba(0,0,0,0.01)";
+  context.fillRect(0,0,canvasW,canvasH);
+  rotateAround(player,targetCircle);
+  //player.draw();
+  targetCircle.draw();
+  player.update();
+  targetCircle.update();
+
+  rotator.r--;
+
   if(window.innerWidth != canvasW || window.innerHeight != canvasH){
     resize();
     targetCircle.pos.dx = canvasW/2;
     targetCircle.pos.dy = canvasH/2;
+    targetCircle.point.r = canvasH/6;
+    context.clearRect(0,0,canvasW,canvasH);
   }
-
-  let jsonVals = getJson();
-  if(jsonVals != null){
-    //console.log(jsonVals.eSense.meditation);
-  }
-
-  context.clearRect(0,0,canvasW,canvasH);
-  rotateAround(player,targetCircle);
-  player.draw();
-  targetCircle.draw();
-  player.update();
-  targetCircle.update();
 }
 
 function resize(){
