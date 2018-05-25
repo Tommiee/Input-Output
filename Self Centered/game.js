@@ -2,6 +2,13 @@
 
 const canvas = document.getElementById("canvas");
 const context = canvas.getContext("2d");
+const username = document.getElementById('username');
+const startButton = document.getElementById("StartButton");
+
+startButton.onclick = function(){
+  loop();
+  startButton.onclick = function(){};
+};
 
 let canvasW, canvasH;
 resize();
@@ -11,10 +18,11 @@ let initJsonVal;
 let targetVector = new Vector2(0,0);
 let rotator = new Vector2(0,0);
 
-var withinArea;
+let session = sessionInit(username.value);
+let withIn;
 
 var player = new GameObject(
-  new Point(0,0,20,"lightgreen"),
+  new Point(0,0,20,"#9F9FFF","",false,0,"rgba(0,0,0,0)"),
   new Vector2(canvasW/4,canvasH/2),
   new Vector2(0,0),
   new Vector2(0,0)
@@ -48,11 +56,13 @@ function loop(){
     console.log(initJsonVal.eSense.meditation)
   }
 
-  context.clearRect(player.point.x,player.point.y,(player.point.r*2)/0.5,(player.point.r*2)/0.5);
+//  context.clearRect(player.point.x,player.point.y,(player.point.r*2)/0.5,(player.point.r*2)/0.5);
   context.fillStyle = "rgba(0,0,0,0.01)";
   context.fillRect(0,0,canvasW,canvasH);
+  context.globalCompositeOperation = "destination-out";
+  player.draw();
   rotateAround(player,targetCircle);
-  //player.draw();
+  context.globalCompositeOperation = "source-over";
   targetCircle.draw();
   player.update();
   targetCircle.update();
@@ -97,4 +107,4 @@ function rotateAround(self,target){
   self.pos.dy = temp.dy;
 }
 
-loop();
+//loop();
