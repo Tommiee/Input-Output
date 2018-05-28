@@ -13,11 +13,12 @@ let initJsonVal;
 
 let targetVector = new Vector2(0,0);
 let rotator = new Vector2(0,0);
+  rotator.r = canvasH/5;
 
 let session = {};
 let within;
 let points = 0;
-let timeTreshhold = new Date().getMilliseconds();
+let timeTreshold = new Date().getMilliseconds();
 
 var player = new GameObject(
   new Point(0,0,20,"#9F9FFF","",false,0,"rgba(0,0,0,0)"),
@@ -34,7 +35,7 @@ var targetCircle = new GameObject(
 );
 
 startButton.onclick = function(){
-  timeTreshhold = new Date().getMilliseconds();
+  timeTreshold = new Date().getMilliseconds();
   sessionInit();
   loop();
   startButton.onclick = function(){};
@@ -55,18 +56,13 @@ startButton.onclick = function(){
 
 function loop(){
   requestAnimationFrame(loop);
-
-  if(getJson() != null){
-    initJsonVal = getJson();
-    console.log(initJsonVal.eSense.meditation)
-  }
-
+  console.log(getVal());
   if(onInside(player,targetCircle)){
     if(!within)
     {
       within = true;
       console.log("startedGame");
-      timeTreshhold = new Date().getMilliseconds();
+      timeTreshold = new Date().getMilliseconds();
       session = sessionInit(username.value);
     }
     session.score++;
@@ -82,11 +78,11 @@ function loop(){
       console.log("on exit");
     }
     // cancelAnimationFrame(loop);
-    if(Math.round((new Date().getMilliseconds() - timeTreshhold) % 80 == 0)){
+    if(Math.round((new Date().getMilliseconds() - timeTreshold) % 80 == 0)){
       points++;
     }
 
-    targetCircle.point.label = "9500";
+    targetCircle.point.label = points;
   }
 
 //  context.clearRect(player.point.x,player.point.y,(player.point.r*2)/0.5,(player.point.r*2)/0.5);
@@ -137,10 +133,14 @@ function rotateAround(self,target){
   temp.sumVector(targetVector,rotator);
 
   rotator.angle += dAngle;
-  rotator.r = canvasH/4;
 
   self.pos.dx = temp.dx;
   self.pos.dy = temp.dy;
 }
 
-//loop();
+function getVal(){
+  if(getJson() != null){
+    initJsonVal = getJson();
+    return initJsonVal.eSense.meditation;
+  }
+}
