@@ -5,10 +5,6 @@ const context = canvas.getContext("2d");
 const username = document.getElementById('username');
 const startButton = document.getElementById("StartButton");
 
-startButton.onclick = function(){
-  loop();
-  startButton.onclick = function(){};
-};
 
 let canvasW, canvasH;
 resize();
@@ -18,8 +14,10 @@ let initJsonVal;
 let targetVector = new Vector2(0,0);
 let rotator = new Vector2(0,0);
 
-let session = sessionInit(username.value);
-let withIn;
+let session = {};
+let within;
+let points = 0;
+let timeTreshhold = new Date().getMilliseconds();
 
 var player = new GameObject(
   new Point(0,0,20,"#9F9FFF","",false,0,"rgba(0,0,0,0)"),
@@ -29,11 +27,18 @@ var player = new GameObject(
 );
 
 var targetCircle = new GameObject(
-  new Point(-200,-200,canvasH/6,"green","",true,5,"white"),
+  new Point(-200,-200,canvasH/6,"green","",true,5,"white","black","",700,canvasH/6+15),
   new Vector2(canvasW/2,canvasH/2),
   new Vector2(0,0),
   new Vector2(0,0)
 );
+
+startButton.onclick = function(){
+  timeTreshhold = new Date().getMilliseconds();
+  sessionInit();
+  loop();
+  startButton.onclick = function(){};
+};
 
 /*
     //spacebar placeholder "meditation above threshold"
@@ -56,6 +61,34 @@ function loop(){
     console.log(initJsonVal.eSense.meditation)
   }
 
+  if(onInside(player,targetCircle)){
+    if(!within)
+    {
+      within = true;
+      console.log("startedGame");
+      timeTreshhold = new Date().getMilliseconds();
+      session = sessionInit(username.value);
+    }
+    session.score++;
+    targetCircle.point.label = "UmU";
+  }else{
+    if(within){
+      within = false;
+      startButton.onclick = function(){
+        sessionInit();
+        loop();
+        startButton.onclick = function(){};
+      };
+      console.log("on exit");
+    }
+    // cancelAnimationFrame(loop);
+    if(Math.round((new Date().getMilliseconds() - timeTreshhold) % 80 == 0)){
+      points++;
+    }
+
+    targetCircle.point.label = "9500";
+  }
+
 //  context.clearRect(player.point.x,player.point.y,(player.point.r*2)/0.5,(player.point.r*2)/0.5);
   context.fillStyle = "rgba(0,0,0,0.01)";
   context.fillRect(0,0,canvasW,canvasH);
@@ -63,6 +96,9 @@ function loop(){
   player.draw();
   rotateAround(player,targetCircle);
   context.globalCompositeOperation = "source-over";
+  context.fillStyle = "rgb(223, 223, 223)";
+  context.fillRect(targetCircle.point.x - targetCircle.point.textXOffset - 15,targetCircle.point.y - targetCircle.point.textYOffset+8,
+                   targetCircle.point.label.length*25,-40);
   targetCircle.draw();
   player.update();
   targetCircle.update();
