@@ -9,8 +9,6 @@ const startButton = document.getElementById("StartButton");
 let canvasW, canvasH;
 resize();
 
-let initJsonVal;
-
 let targetVector = new Vector2(0,0);
 let rotator = new Vector2(0,0);
   rotator.r = canvasH/5;
@@ -20,6 +18,8 @@ let session = {};
 let within,RunGame = false;
 let points = 0;
 let timeTreshold = new Date().getMilliseconds();
+let initVal = getVal();
+let spread = 10;
 
 var player = new GameObject(
   new Point(0,0,20,"#9F9FFF","",false,0,"rgba(0,0,0,0)"),
@@ -29,7 +29,7 @@ var player = new GameObject(
 );
 
 var targetCircle = new GameObject(
-  new Point(-200,-200,canvasH/6,"green","",true,5,"white","black","",700,canvasH/6+15),
+  new Point(-200,-200,canvasH/8,"green","",true,5,"white","black","",700,canvasH/6+15),
   new Vector2(canvasW/2,canvasH/2),
   new Vector2(0,0),
   new Vector2(0,0)
@@ -41,37 +41,36 @@ startButton.onclick = function(){
   startGame = true;
   loop();
   startButton.onclick = function(){};
+  initVal = getVal();
 };
 
-/*
-    //spacebar placeholder "meditation above threshold"
-    if(!onInside(player,targetCircle)){
-      player.vel.difVector(player.pos,new Vector2(targetCircle.x,targetCircle.y));
-      player.vel.r = 1;
-    } else {
-      player.vel = new Vector2(0,0);
-    }
-    //placeholder "meditation below threshold"
-    player.vel.r = -1;
-*/
-
-
 function loop(){
+<<<<<<< HEAD
   if(startGame){
     requestAnimationFrame(loop);
   }
   console.log(getVal());
   if(onInside(targetCircle,player)){
     if(within == false)
+=======
+  requestAnimationFrame(loop);
+  if(onInside(player,targetCircle)){
+    if(!within)
+>>>>>>> 8e938ba90ed16acc72396ee49cf9a07cd8c5cc52
     {
       console.log("started session");
       timeTreshold = new Date().getMilliseconds();
       session = sessionInit(username.value);
       within = true;
     }
+<<<<<<< HEAD
     console.log("counted");
     points++;
     console.log("inside");
+=======
+    session.score++;
+    targetCircle.point.label = "NaN";
+>>>>>>> 8e938ba90ed16acc72396ee49cf9a07cd8c5cc52
   }else{
     if(within){
       session.score = Math.round((points /50));
@@ -99,13 +98,20 @@ function loop(){
   player.update();
   targetCircle.update();
 
-  rotator.r--;
+  console.log("json value: " + getVal() + " " + "init val: " + initVal + " " + "spread: " + spread);
+  if(getVal() >= initVal + spread ){
+    rotator.r -= 0.5;
+  } else {
+    if(rotator.r < canvasH/2.5){
+      rotator.r += 0.5;
+    }
+  }
 
   if(window.innerWidth != canvasW || window.innerHeight != canvasH){
     resize();
     targetCircle.pos.dx = canvasW/2;
     targetCircle.pos.dy = canvasH/2;
-    targetCircle.point.r = canvasH/6;
+    targetCircle.point.r = canvasH/8;
     context.clearRect(0,0,canvasW,canvasH);
   }
 }
@@ -149,7 +155,9 @@ function initStartButton(){
 
 function getVal(){
   if(getJson() != null){
-    initJsonVal = getJson();
+    var initJsonVal = getJson();
     return initJsonVal.eSense.meditation;
+  } else {
+    return null;
   }
 }
