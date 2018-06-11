@@ -45,35 +45,27 @@ startButton.onclick = function(){
 };
 
 function loop(){
-<<<<<<< HEAD
   if(startGame){
     requestAnimationFrame(loop);
   }
   console.log(getVal());
-  if(onInside(targetCircle,player)){
-    if(within == false)
-=======
-  requestAnimationFrame(loop);
   if(onInside(player,targetCircle)){
-    if(!within)
->>>>>>> 8e938ba90ed16acc72396ee49cf9a07cd8c5cc52
-    {
+    if(!within){
+      requestAnimationFrame(loop);
       console.log("started session");
       timeTreshold = new Date().getMilliseconds();
       session = sessionInit(username.value);
       within = true;
     }
-<<<<<<< HEAD
-    console.log("counted");
-    points++;
+    if(Math.round((new Date().getMilliseconds() - timeTreshold) % 80 == 0)){
+      console.log("counted");
+       points++;
+     }
     console.log("inside");
-=======
-    session.score++;
     targetCircle.point.label = "NaN";
->>>>>>> 8e938ba90ed16acc72396ee49cf9a07cd8c5cc52
   }else{
     if(within){
-      session.score = Math.round((points /50));
+      session.score = points;
 
       overWriteRecord(GetRecordJson(),session.score,session.tag);
       within = false;
@@ -84,7 +76,7 @@ function loop(){
 
   }
 
-  targetCircle.point.label = "" +Math.round((points /50));
+  targetCircle.point.label = "" +points;
   context.fillStyle = "rgba(0,0,0,0.01)";
   context.fillRect(0,0,canvasW,canvasH);
   context.globalCompositeOperation = "destination-out";
