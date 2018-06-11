@@ -15,8 +15,9 @@ let targetVector = new Vector2(0,0);
 let rotator = new Vector2(0,0);
   rotator.r = canvasH/5;
 
+
 let session = {};
-let within;
+let within,RunGame = false;
 let points = 0;
 let timeTreshold = new Date().getMilliseconds();
 
@@ -37,6 +38,7 @@ var targetCircle = new GameObject(
 startButton.onclick = function(){
   timeTreshold = new Date().getMilliseconds();
   sessionInit();
+  startGame = true;
   loop();
   startButton.onclick = function(){};
 };
@@ -55,37 +57,35 @@ startButton.onclick = function(){
 
 
 function loop(){
-  requestAnimationFrame(loop);
+  if(startGame){
+    requestAnimationFrame(loop);
+  }
   console.log(getVal());
-  if(onInside(player,targetCircle)){
-    if(!within)
+  if(onInside(targetCircle,player)){
+    if(within == false)
     {
-      within = true;
-      console.log("startedGame");
+      console.log("started session");
       timeTreshold = new Date().getMilliseconds();
       session = sessionInit(username.value);
+      within = true;
     }
-    session.score++;
-    targetCircle.point.label = "UmU";
+    console.log("counted");
+    points++;
+    console.log("inside");
   }else{
     if(within){
+      session.score = Math.round((points /50));
+
+      overWriteRecord(GetRecordJson(),session.score,session.tag);
       within = false;
-      startButton.onclick = function(){
-        sessionInit();
-        loop();
-        startButton.onclick = function(){};
-      };
+      // initStartButton();
       console.log("on exit");
     }
-    // cancelAnimationFrame(loop);
-    if(Math.round((new Date().getMilliseconds() - timeTreshold) % 80 == 0)){
-      points++;
-    }
+    console.log("not inside");
 
-    targetCircle.point.label = points;
   }
 
-//  context.clearRect(player.point.x,player.point.y,(player.point.r*2)/0.5,(player.point.r*2)/0.5);
+  targetCircle.point.label = "" +Math.round((points /50));
   context.fillStyle = "rgba(0,0,0,0.01)";
   context.fillRect(0,0,canvasW,canvasH);
   context.globalCompositeOperation = "destination-out";
@@ -93,7 +93,7 @@ function loop(){
   rotateAround(player,targetCircle);
   context.globalCompositeOperation = "source-over";
   context.fillStyle = "rgb(223, 223, 223)";
-  context.fillRect(targetCircle.point.x - targetCircle.point.textXOffset - 15,targetCircle.point.y - targetCircle.point.textYOffset+8,
+  context.fillRect(targetCircle.point.x - targetCircle.point.textXOffset - 3,targetCircle.point.y - targetCircle.point.textYOffset+8,
                    targetCircle.point.label.length*25,-40);
   targetCircle.draw();
   player.update();
@@ -118,7 +118,7 @@ function resize(){
 }
 
 function onInside(itself,target){
-  if(itself.point.distance(target) <= itself.point.r+target.point.r){
+  if(itself.point.distance(target.point) <= itself.point.r+target.point.r){
     return true;
   }else return false;
 }
@@ -136,6 +136,15 @@ function rotateAround(self,target){
 
   self.pos.dx = temp.dx;
   self.pos.dy = temp.dy;
+}
+
+function initStartButton(){
+  startButton.onclick = function(){
+    sessionInit();
+    startGame = !startGame;
+    loop();
+    startButton.onclick = function(){};
+  };
 }
 
 function getVal(){
