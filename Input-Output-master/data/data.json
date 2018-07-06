@@ -1,17 +1,17 @@
 {
     "eSense": {
-        "attention": 0,
-        "meditation": 0
+        "attention": 65,
+        "meditation": 43
     },
     "eegPower": {
-        "delta": 279117,
-        "theta": 233231,
-        "lowAlpha": 8552,
-        "highAlpha": 259604,
-        "lowBeta": 78502,
-        "highBeta": 61394,
-        "lowGamma": 53989,
-        "highGamma": 64078
+        "delta": 2111005,
+        "theta": 1278106,
+        "lowAlpha": 372105,
+        "highAlpha": 345629,
+        "lowBeta": 597712,
+        "highBeta": 501925,
+        "lowGamma": 314603,
+        "highGamma": 369843
     },
     "poorSignalLevel": 200
 }
