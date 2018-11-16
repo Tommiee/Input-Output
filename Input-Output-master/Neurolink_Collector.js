@@ -12,8 +12,6 @@ client.on('data',function(data){
         console.error(err);
         return;
     };
-    console.log("Data written to file");
-    //Might want to remove this later, else it spams the shit outta your console.
   });
 });
 
