@@ -1,5 +1,3 @@
-//TODO make this script return variables.
-//TODO make this script not look like ass.
 let actual_JSON = null;
 
 function loadJSON(callback) {
@@ -17,21 +15,11 @@ function loadJSON(callback) {
 
 function init() {
   loadJSON(function(response) {
-    // Parse JSON string into object
     actual_JSON = JSON.parse(response);
-    //console.log(actual_JSON);
-    //return actual_JSON;
   });
-  //console.log("jsonObject: " + jsonObject);
-  //return jsonObject
 }
 
 function getJson(){
   init();
   return actual_JSON;
 }
-
-// setInterval(function(){
-//   init();
-//   console.log(actual_JSON);
-// }, 1000);
